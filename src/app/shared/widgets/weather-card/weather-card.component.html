@@ -1,0 +1,23 @@
+<div *ngIf="weatherDetails" class="card shadow rounded">
+    <div *ngIf="isLoading" href="..." class="placeholder" style="width: 100%; height: 375px;"></div>
+    <img class="card-img-top" *ngIf="!isLoading && isDay" src="assets/day.svg" class="card-image-top">
+    <img class="card-img-top" *ngIf="!isLoading && !isDay" src="assets/night.svg" class="card-image-top">
+    <div class="icon bg-light mx-auto text-center">
+        <img *ngIf="!isLoading" src="assets/weather-icons/{{weatherDetails.weathercode}}.svg" style="width: 100px">
+        <div *ngIf="isLoading" href="..." class="placeholder bg-light" style="width: 100px; height: 100px; border-radius: 50%;"></div>
+    </div>
+    <div class="card-body text-center text-muted text-uppercase">
+      <div *ngIf="isLoading" class="placeholder-glow text-center">
+        <span class="placeholder mx-auto card-title my-3 col-5"></span>
+        <span class="placeholder mx-auto card-text my-3 col-3"></span>
+        <span class="placeholder mx-auto card-text display-4 my-4 col-8"></span>
+      </div>
+      <div *ngIf="!isLoading">
+        <h5 class="card-title my-3">{{currentCity.name}}</h5>
+        <p class="card-text my-3">{{weatherDetails.time | date : 'shortTime'}}</p>
+        <p class="card-text display-4 my-4">{{weatherDetails.temperature}} &deg;C</p>
+      </div>
+    </div>
+</div>
+
+

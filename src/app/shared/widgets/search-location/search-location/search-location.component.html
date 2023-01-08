@@ -1,0 +1,7 @@
+<form [formGroup]="searchForm" (submit)="onSubmit($event)" class="text-center text-muted my-4 form-group">
+    <div class="input-group">
+        <input class="form-control px-3" formControlName="search" list="cityOptions" autocomplete="off" [ngbTypeahead]="search" style="border-radius: 20px"
+        [inputFormatter]="formatter" [resultFormatter]="formatter" [editable]="false" placeholder="Search City" (change)="searchForm">
+        <div *ngIf="isLoading" class="spinner-border spinner-border-md text-primary" role="status" style="width: 1.5rem; height: 1.5rem; border-radius: 50%; position: absolute; right: 1.5%; top: 15%; z-index: 1000000"></div>
+    </div>
+</form>
