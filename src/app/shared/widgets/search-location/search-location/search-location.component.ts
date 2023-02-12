@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms'; 
+import { FormGroup, FormControl, Validators, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms'; 
 import { debounceTime, finalize, switchMap, tap, distinctUntilChanged, map, Observable, OperatorFunction } from 'rxjs';
 import { LocationService } from 'src/app/core/services/location/location.service';
 import { City } from 'src/app/shared/models/city/city.model';
@@ -7,15 +7,22 @@ import { City } from 'src/app/shared/models/city/city.model';
 @Component({
   selector: 'app-search-location',
   templateUrl: './search-location.component.html',
-  styleUrls: ['./search-location.component.css']
+  styleUrls: ['./search-location.component.css'],
+  providers: [     
+    {       
+      provide: NG_VALUE_ACCESSOR, 
+      useExisting: SearchLocationComponent,
+      multi: true     
+    }
+  ] 
 })
-export class SearchLocationComponent {
-  @Output() submitted = new EventEmitter<any>();
+export class SearchLocationComponent implements ControlValueAccessor {
+  onChange: any = () => {}
+  onTouch: any = () => {}
 
   searchForm = new FormGroup({
     search: new FormControl('', [Validators.required])
   });
-  cities!: City[];
   isLoading!: boolean;
 
   search: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) =>
@@ -36,6 +43,15 @@ export class SearchLocationComponent {
     private locationService: LocationService,
   ) {}
 
+  writeValue(obj: any): void {}
+  registerOnChange(fn: any): void {
+    this.onChange = fn;                                                                   
+  }
+  registerOnTouched(fn: any): void {
+    this.onTouch = fn;
+  }
+  setDisabledState?(isDisabled: boolean): void {}
+
   ngOnInit() {
     this.searchForm.controls.search.valueChanges
       .subscribe( () => {this.onSubmit(null)})
@@ -43,8 +59,9 @@ export class SearchLocationComponent {
   }
 
   onSubmit(event: any) {
-    if(event) event.preventDefault();
-    this.submitted.emit(this.searchForm.controls.search.value)
+    if(event) return event.preventDefault();
+    this.onChange(this.searchForm.controls.search.value);
+    this.onTouch(this.searchForm.controls.search.value);
   }
 
 }

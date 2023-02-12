@@ -1,6 +1,6 @@
 
 <div class="container my-5 mx-auto" style="max-width: 400px;">
   <h1 class="text-center display-4 text-muted" style="font-weight: 500">Weather App</h1>
-  <app-search-location (submitted)="onSearch($event)"></app-search-location>
+  <app-search-location [(ngModel)]="city" name="cityVal"></app-search-location>
   <app-weather-card [city]="city"></app-weather-card>
 </div>
