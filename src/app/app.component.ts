@@ -10,13 +10,6 @@ export class AppComponent {
   title = 'weather-app';
   city!: City;
 
-  constructor() {
-    console.log('test')
-  }
-
-  onSearch(event: any) {
-    this.city = event
-    console.log('inside app', this.city);
-  }
+  constructor() {}
 }
 
